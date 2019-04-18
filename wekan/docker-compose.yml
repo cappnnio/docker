@@ -1,0 +1,41 @@
+version: '2'
+services:
+  wekandb:
+    image: mongo:3.2.20
+    #-------------------------------------------------------------------------------------
+    container_name: wekan-db
+    restart: always
+    command: mongod --smallfiles --oplogSize 128
+    # 由于之前使用 snap 用的 27019 端口，因此我这里做了映射
+    ports:
+      - 27019:27017
+    networks:
+      - wekan-tier
+    expose:
+      - 27017
+    volumes:
+      - /docker/wekan/data:/data/db
+      - /docker/wekan/dump:/dump
+  wekan:
+    #---------------------------------------------------------------------------------
+    image: wekanteam/wekan:v2.17
+    #-------------------------------------------------------------------------------------
+    container_name: wekan-app
+    restart: always
+    networks:
+      - wekan-tier
+    #-------------------------------------------------------------------------------------
+    ports:
+      - 18083:8080
+    environment:
+      - MONGO_URL=mongodb://wekandb:27017/wekan
+      #  改成你自己的地址
+      - ROOT_URL=http://119.3.6.221:18083
+      - WITH_API=true
+      - BROWSER_POLICY_ENABLED=true
+    depends_on:
+      - wekandb
+networks:
+  wekan-tier:
+    driver: bridge
+

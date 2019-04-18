@@ -1,0 +1,23 @@
+[mysqld]
+pid-file        = /var/run/mysqld/mysqld.pid
+socket          = /var/run/mysqld/mysqld.sock
+datadir         = /var/lib/mysql
+log-error       = /var/lib/mysql/error.log
+lower_case_table_names = 1
+default-time-zone = '+8:00'
+
+max_connections = 1000
+
+#server-id       = 1
+#log-bin         = mysql-bin
+#log-bin-index   = master-bin.index
+# binlog-do-db    = abc
+#binlog-ignore-db= information_schema
+#binlog-ignore-db= performance_schema
+#binlog-ignore-db= sys
+#binlog-ignore-db= mysql
+#symbolic-links  = 0
+
+sql_mode='NO_AUTO_VALUE_ON_ZERO,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION,PIPES_AS_CONCAT,ANSI_QUOTES'
+[mysqld_safe]
+max_allowed_packet=20M
